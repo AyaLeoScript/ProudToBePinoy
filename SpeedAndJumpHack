@@ -1,0 +1,201 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+local camera = workspace.CurrentCamera
+
+-- Correctly get screen resolution from the camera
+local screenWidth = camera.ViewportSize.X
+local screenHeight = camera.ViewportSize.Y
+
+-- Create the ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = playerGui
+
+-- Create the Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.4, 0, 0.3, 0)  -- Relative size (40% width, 30% height)
+frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Centered
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.new(0.15, 0.15, 0.15)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.new(0, 0, 0)
+frame.Parent = screenGui
+
+-- Add UICorner to Frame
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 10)
+frameCorner.Parent = frame
+
+-- Make the frame draggable
+frame.Active = true
+frame.Draggable = true
+
+-- Create the Title Label
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "AyaxLeo Hack"
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextSize = 20 * (screenHeight / 1080)  -- Scale text size based on screen height
+titleLabel.Parent = frame
+
+-- Create Exit Button
+local exitButton = Instance.new("TextButton")
+exitButton.Size = UDim2.new(0.1, 0, 0.2, 0)
+exitButton.Position = UDim2.new(0.9, -5, 0, 5)
+exitButton.BackgroundColor3 = Color3.new(0.6, 0.2, 0.2)
+exitButton.BorderSizePixel = 2
+exitButton.BorderColor3 = Color3.new(0, 0, 0)
+exitButton.Text = "X"
+exitButton.TextColor3 = Color3.new(1, 1, 1)
+exitButton.Font = Enum.Font.SourceSansBold
+exitButton.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+exitButton.Parent = frame
+
+-- Add UICorner to Exit Button
+local exitButtonCorner = Instance.new("UICorner")
+exitButtonCorner.CornerRadius = UDim.new(0, 5)
+exitButtonCorner.Parent = exitButton
+
+exitButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Create Minimize Button
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0.1, 0, 0.2, 0)
+minimizeButton.Position = UDim2.new(0.8, -5, 0, 5)
+minimizeButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
+minimizeButton.BorderSizePixel = 2
+minimizeButton.BorderColor3 = Color3.new(0, 0, 0)
+minimizeButton.Text = "_"
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.Font = Enum.Font.SourceSansBold
+minimizeButton.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+minimizeButton.Parent = frame
+
+-- Add UICorner to Minimize Button
+local minimizeButtonCorner = Instance.new("UICorner")
+minimizeButtonCorner.CornerRadius = UDim.new(0, 5)
+minimizeButtonCorner.Parent = minimizeButton
+
+local minimized = false
+minimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        -- Collapse to only show the title
+        frame:TweenSize(UDim2.new(0, 300, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        titleLabel.Text = "AyaxLeo"
+        for _, child in ipairs(frame:GetChildren()) do
+            if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
+                child.Visible = false
+            end
+        end
+    else
+        -- Expand to show full UI again
+        frame:TweenSize(UDim2.new(0, 300, 0, 200), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        titleLabel.Text = "AyaxLeo Hack"
+        for _, child in ipairs(frame:GetChildren()) do
+            if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
+                child.Visible = true
+            end
+        end
+    end
+end)
+
+-- Infinite Jump Variables
+local infiniteJump = false
+
+-- Function for Infinite Jump
+local function onJumpRequest()
+    local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid")
+    if humanoid and infiniteJump then
+        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end
+
+-- Connect Jump Request
+UserInputService.JumpRequest:Connect(onJumpRequest)
+
+-- Create ON/OFF Infinite Jump Button
+local jumpButton = Instance.new("TextButton")
+jumpButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+jumpButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+jumpButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
+jumpButton.BorderSizePixel = 2
+jumpButton.BorderColor3 = Color3.new(0, 0, 0)
+jumpButton.Text = "ON INF JUMP"
+jumpButton.TextColor3 = Color3.new(1, 1, 1)
+jumpButton.Font = Enum.Font.SourceSansBold
+jumpButton.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+jumpButton.Parent = frame
+
+-- Add UICorner to Jump Button
+local jumpButtonCorner = Instance.new("UICorner")
+jumpButtonCorner.CornerRadius = UDim.new(0, 10)
+jumpButtonCorner.Parent = jumpButton
+
+jumpButton.MouseButton1Click:Connect(function()
+    infiniteJump = not infiniteJump
+    jumpButton.Text = infiniteJump and "OFF INF JUMP" or "ON INF JUMP"
+    jumpButton.BackgroundColor3 = infiniteJump and Color3.new(0.6, 0.2, 0.2) or Color3.new(0.2, 0.6, 0.2)
+end)
+
+-- Speed Variables
+local speedEnabled = false
+local speedValue = 16 -- Default speed
+
+-- Create Speed Input Box
+local speedInput = Instance.new("TextBox")
+speedInput.Size = UDim2.new(0.6, 0, 0.2, 0)
+speedInput.Position = UDim2.new(0.2, 0, 0.55, 0)
+speedInput.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+speedInput.BorderSizePixel = 2
+speedInput.BorderColor3 = Color3.new(0, 0, 0)
+speedInput.Text = "Enter Speed"
+speedInput.TextColor3 = Color3.new(1, 1, 1)
+speedInput.Font = Enum.Font.SourceSansBold
+speedInput.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+speedInput.ClearTextOnFocus = true
+speedInput.Parent = frame
+
+-- Add UICorner to Speed Input
+local speedInputCorner = Instance.new("UICorner")
+speedInputCorner.CornerRadius = UDim.new(0, 10)
+speedInputCorner.Parent = speedInput
+
+-- Create ON/OFF Speed Button
+local speedButton = Instance.new("TextButton")
+speedButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+speedButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+speedButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
+speedButton.BorderSizePixel = 2
+speedButton.BorderColor3 = Color3.new(0, 0, 0)
+speedButton.Text = "ON SPEED"
+speedButton.TextColor3 = Color3.new(1, 1, 1)
+speedButton.Font = Enum.Font.SourceSansBold
+speedButton.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+speedButton.Parent = frame
+
+-- Add UICorner to Speed Button
+local speedButtonCorner = Instance.new("UICorner")
+speedButtonCorner.CornerRadius = UDim.new(0, 10)
+speedButtonCorner.Parent = speedButton
+
+speedButton.MouseButton1Click:Connect(function()
+    speedEnabled = not speedEnabled
+    speedButton.Text = speedEnabled and "OFF SPEED" or "ON SPEED"
+    speedButton.BackgroundColor3 = speedEnabled and Color3.new(0.6, 0.2, 0.2) or Color3.new(0.2, 0.6, 0.2)
+
+    if speedEnabled then
+        local inputSpeed = tonumber(speedInput.Text)
+        if inputSpeed and inputSpeed > 0 and inputSpeed <= 200 then
+            speedValue = inputSpeed
+        end
+        LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = speedValue
+    else
+        LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 16 -- Reset to default
+    end
+end)
