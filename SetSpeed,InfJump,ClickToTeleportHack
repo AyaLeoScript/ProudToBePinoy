@@ -38,7 +38,7 @@ titleLabel.BackgroundTransparency = 1
 titleLabel.Text = "AyaxLeo Hack"
 titleLabel.TextColor3 = Color3.new(1, 1, 1)
 titleLabel.Font = Enum.Font.SourceSansBold
-titleLabel.TextSize = 35 * (screenHeight / 1080)  -- Scale text size based on screen height
+titleLabel.TextSize = 30 * (screenHeight / 1080)  -- Scale text size based on screen height
 titleLabel.Parent = frame
 
 -- Create Exit Button
