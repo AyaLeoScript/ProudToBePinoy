@@ -14,7 +14,7 @@ screenGui.Parent = playerGui
 
 -- Create the Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0.4, 0, 0.3, 0)  -- Relative size (40% width, 30% height)
+frame.Size = UDim2.new(0.21, 0, 0.30, 0)  -- Relative size (40% width, 70% height)
 frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Centered
 frame.AnchorPoint = Vector2.new(0.5, 0.5)
 frame.BackgroundColor3 = Color3.new(0.15, 0.15, 0.15)
@@ -38,7 +38,7 @@ titleLabel.BackgroundTransparency = 1
 titleLabel.Text = "AyaxLeo Hack"
 titleLabel.TextColor3 = Color3.new(1, 1, 1)
 titleLabel.Font = Enum.Font.SourceSansBold
-titleLabel.TextSize = 20 * (screenHeight / 1080)  -- Scale text size based on screen height
+titleLabel.TextSize = 35 * (screenHeight / 1080)  -- Scale text size based on screen height
 titleLabel.Parent = frame
 
 -- Create Exit Button
@@ -66,7 +66,7 @@ end)
 -- Create Minimize Button
 local minimizeButton = Instance.new("TextButton")
 minimizeButton.Size = UDim2.new(0.1, 0, 0.2, 0)
-minimizeButton.Position = UDim2.new(0.8, -5, 0, 5)
+minimizeButton.Position = UDim2.new(0.78, -5, 0, 5)
 minimizeButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
 minimizeButton.BorderSizePixel = 2
 minimizeButton.BorderColor3 = Color3.new(0, 0, 0)
@@ -95,7 +95,7 @@ minimizeButton.MouseButton1Click:Connect(function()
         end
     else
         -- Expand to show full UI again
-        frame:TweenSize(UDim2.new(0, 300, 0, 200), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+        frame:TweenSize(UDim2.new(0.21, 0, 0.30, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
         titleLabel.Text = "AyaxLeo Hack"
         for _, child in ipairs(frame:GetChildren()) do
             if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
@@ -121,8 +121,8 @@ UserInputService.JumpRequest:Connect(onJumpRequest)
 
 -- Create ON/OFF Infinite Jump Button
 local jumpButton = Instance.new("TextButton")
-jumpButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-jumpButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+jumpButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+jumpButton.Position = UDim2.new(0.1, 0, 0.25, 0)
 jumpButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
 jumpButton.BorderSizePixel = 2
 jumpButton.BorderColor3 = Color3.new(0, 0, 0)
@@ -149,8 +149,8 @@ local speedValue = 16 -- Default speed
 
 -- Create Speed Input Box
 local speedInput = Instance.new("TextBox")
-speedInput.Size = UDim2.new(0.6, 0, 0.2, 0)
-speedInput.Position = UDim2.new(0.2, 0, 0.55, 0)
+speedInput.Size = UDim2.new(0.6, 0, 0.15, 0)
+speedInput.Position = UDim2.new(0.2, 0, 0.44, 0)
 speedInput.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
 speedInput.BorderSizePixel = 2
 speedInput.BorderColor3 = Color3.new(0, 0, 0)
@@ -168,8 +168,8 @@ speedInputCorner.Parent = speedInput
 
 -- Create ON/OFF Speed Button
 local speedButton = Instance.new("TextButton")
-speedButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-speedButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+speedButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+speedButton.Position = UDim2.new(0.1, 0, 0.62, 0)
 speedButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
 speedButton.BorderSizePixel = 2
 speedButton.BorderColor3 = Color3.new(0, 0, 0)
@@ -197,5 +197,42 @@ speedButton.MouseButton1Click:Connect(function()
         LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = speedValue
     else
         LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 16 -- Reset to default
+    end
+end)
+
+-- Teleport Variables
+local teleportEnabled = false
+
+-- Create Teleport Button
+local teleportButton = Instance.new("TextButton")
+teleportButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+teleportButton.Position = UDim2.new(0.1, 0, 0.80, 0)
+teleportButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
+teleportButton.BorderSizePixel = 2
+teleportButton.BorderColor3 = Color3.new(0, 0, 0)
+teleportButton.Text = "ON CLICK TO TELEPORT"
+teleportButton.TextColor3 = Color3.new(1, 1, 1)
+teleportButton.Font = Enum.Font.SourceSansBold
+teleportButton.TextSize = 16 * (screenHeight / 1080)  -- Scale text size based on screen height
+teleportButton.Parent = frame
+
+-- Add UICorner to Teleport Button
+local teleportButtonCorner = Instance.new("UICorner")
+teleportButtonCorner.CornerRadius = UDim.new(0, 10)
+teleportButtonCorner.Parent = teleportButton
+
+teleportButton.MouseButton1Click:Connect(function()
+    teleportEnabled = not teleportEnabled
+    teleportButton.Text = teleportEnabled and "OFF CLICK TO TELEPORT" or "ON CLICK TO TELEPORT"
+    teleportButton.BackgroundColor3 = teleportEnabled and Color3.new(0.6, 0.2, 0.2) or Color3.new(0.2, 0.6, 0.2)
+end)
+
+-- Teleport Functionality
+UserInputService.InputBegan:Connect(function(input, isProcessed)
+    if isProcessed then return end
+    
+    if teleportEnabled and input.UserInputType == Enum.UserInputType.MouseButton1 then
+        local mouse = LocalPlayer:GetMouse()
+        LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(mouse.Hit.p))
     end
 end)
