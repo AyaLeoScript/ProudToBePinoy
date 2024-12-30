@@ -37,7 +37,7 @@ frame.Draggable = true
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "AyaxLeo Hack"
+titleLabel.Text = "AyaXLeo Hack"
 titleLabel.TextColor3 = Color3.new(1, 1, 1)
 titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextSize = 25 * (screenHeight / 1080)  -- Scale text size based on screen height
@@ -89,7 +89,7 @@ minimizeButton.MouseButton1Click:Connect(function()
     if minimized then
         -- Collapse to only show the title
         frame:TweenSize(UDim2.new(0, 300, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
-        titleLabel.Text = "AyaxLeo Hack"
+        titleLabel.Text = "AyaXLeo Hack"
         for _, child in ipairs(frame:GetChildren()) do
             if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
                 child.Visible = false
@@ -98,7 +98,7 @@ minimizeButton.MouseButton1Click:Connect(function()
     else
         -- Expand to show full UI again
         frame:TweenSize(UDim2.new(0.21, 0, 0.30, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
-        titleLabel.Text = "AyaxLeo Hack"
+        titleLabel.Text = "AyaXLeo Hack"
         for _, child in ipairs(frame:GetChildren()) do
             if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
                 child.Visible = true
