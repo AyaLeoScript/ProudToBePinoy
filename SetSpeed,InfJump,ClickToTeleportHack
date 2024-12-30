@@ -87,7 +87,7 @@ minimizeButton.MouseButton1Click:Connect(function()
     if minimized then
         -- Collapse to only show the title
         frame:TweenSize(UDim2.new(0, 300, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
-        titleLabel.Text = "AyaxLeo"
+        titleLabel.Text = "AyaxLeo Hack"
         for _, child in ipairs(frame:GetChildren()) do
             if child ~= titleLabel and child ~= minimizeButton and child ~= exitButton then
                 child.Visible = false
